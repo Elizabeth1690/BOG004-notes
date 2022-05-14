@@ -5,62 +5,86 @@
 }
 
 body {
-  background-color: rgb(1, 1, 8);
+  background-color: black;
 }
 
 .container-padre {
   width: 100%;
   height: 100vh;
-  margin: 13% 13% 5% 5%;
+  margin: 8% 5%;
 }
 
 .container-home {
-  background-image: url("../Img/img-fondo.jpg");
+  background-image: url("../img/img-fondo.jpg");
   width: 90%;
-  min-height: 82vh;
+  min-height: 91vh;
   background-size: cover;
-  box-shadow: 5px 5px 0px 5px white;
+  box-shadow: 2px 2px 0px 2px white;
   border-radius: 50px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-gap: 180px;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
 }
 
 .container-paragraph-one {
   background-color: rgba(196, 196, 196, 0.56);
-  width: 100%;
-  height: 15vh;
-  border: 2px solid blue;
-  font-size: 27px;
+  width: 55%;
+  height: 14vh;
+  background-color: #e4b0c4;
+  color: black;
+  font-size: 12px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  border-radius: 20px;
-  grid-column: 2 / 4;
-  grid-row: 1 / 3;
-  align-self: center;
-  margin-left: 100px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 5% 0 90% 3%;
+  padding-top: 2%;
+  font-weight: 700;
 }
 
 .container-paragraph-two {
   background-color: rgba(196, 196, 196, 0.56);
-  width: 95%;
-  height: 8vh;
-  border: 2px solid blue;
-  font-size: 27px;
+  width: 40%;
+  height: 8.5vh;
+  background-color: #b0da9b;
+  color: black;
+  font-size: 12px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
-  border-radius: 20px;
-  grid-column: 2;
-  grid-row: 4;
+  margin: 0 0 11% 3%;
+  padding-top: 5px;
+  border-radius: 15px;
+  font-weight: 700;
+}
+
+.img-mano {
+  width: 33px;
 }
 
 .btn-google {
   background-color: rgba(196, 196, 196, 0.56);
-  width: 90%;
-  height: 10vh;
-  border: 2px solid blue;
-  border-radius: 25px;
-  font-size: 27px;
+  width: 60%;
+  height: 8vh;
+  background-color: whitesmoke;
+  color: black;
+  border-radius: 11px;
+  font-size: 13px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  grid-column: 3;
-  grid-row: 4;
+  margin: 0 0 3% 3%;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 4%;
+}
+
+.img-google {
+  width: 24px;
+}
+
+@media (min-width: 767px) {
+  .container-home {
+    min-height: 60vh;
+  }
+  .container-padre {
+    margin: 0% 0%;
+  }
 }

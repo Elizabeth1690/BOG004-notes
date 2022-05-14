@@ -1,10 +1,9 @@
 import React from "react";
-/*import ReactDOM from 'react-dom/client';*/
 import "./Home.css";
-/*import App from './App';*/
+import "./Notes.js";
 import { loginGoogle } from "../controler/firebase-controler";
 
-const Home = () => {
+export default function Home() {
   return (
     <div className="container-padre">
       <div className="container-home">
@@ -17,13 +16,21 @@ const Home = () => {
         </div>
         <div className="container-paragraph-two">
           <p>¡ Escribelas ya !</p>
+          <img
+            className="img-mano"
+            src="https://i.imgur.com/mpgK23k.png"
+            alt="mano apuntando hacía abajo"
+          />
         </div>
         <button className="btn-google" onClick={() => loginGoogle()}>
           Conectar con Google
+          <img
+            className="img-google"
+            src="https://i.imgur.com/8VcogJn.png"
+            alt="Google"
+          />
         </button>
       </div>
     </div>
   );
-};
-
-export default Home;
+}
