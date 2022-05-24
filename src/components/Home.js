@@ -5,7 +5,7 @@ import { loginGoogle } from "../controler/firebase-controler";
 
 export default function Home() {
   return (
-    <div className="container-padre">
+    <div className="container-main">
       <div className="container-home">
         <div className="container-paragraph-one">
           <p>
@@ -17,7 +17,7 @@ export default function Home() {
         <div className="container-paragraph-two">
           <p>¡ Escribelas ya !</p>
           <img
-            className="img-mano"
+            className="img-hand"
             src="https://i.imgur.com/mpgK23k.png"
             alt="mano apuntando hacía abajo"
           />
