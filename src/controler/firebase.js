@@ -58,7 +58,7 @@ export const updateNote = async (id, title, description) => {
 };
 
 export const getNote = async (id) => {
-  const consult = await getDoc(doc(db, "notes", id));
-  return consult;
+  const Edit = await getDoc(doc(db, "notes", id));
+  return Edit;
 };
 export { getAuth, signInWithPopup, GoogleAuthProvider };

@@ -5,15 +5,29 @@ import {
   addNotes,
   getNotes,
   deleteNotes,
-  /* updateNote,*/
+  updateNote,
   getNote,
 } from "../controler/firebase.js";
 const Notes = () => {
   const [notes, setNotes] = useState([]);
 
+  const [noteTitle, setNoteTitle] = useState("");
+  const [readOnly, setReadOnly] = useState(true);
+  const [noteDescription, setNoteDescription] = useState("");
+  const [noteIdEdit, setNoteIdEdit] = useState("");
+
   useEffect(() => {
     consultNotes();
   }, []);
+
+  /*useEffect(() => {
+    if (idEdit === "") {
+     
+    } else {
+      consultNote(idEdit);
+      console.log("biennnnnn", idEdit);
+    }
+  }, [idEdit]);*/
 
   const formNotes = (e) => {
     e.preventDefault();
@@ -22,7 +36,6 @@ const Notes = () => {
     const description = e.target.descriptionNotes.value;
     addNotes(title, description);
     consultNotes();
-    /*e.reset();*/
   };
 
   const consultNotes = async () => {
@@ -31,20 +44,21 @@ const Notes = () => {
   };
 
   const removeNotes = async (noteId) => {
-    console.log(noteId);
+    console.log("holaaaaaaaaaaaaa");
     await deleteNotes(noteId);
     consultNotes();
   };
 
-  /*const noteUpdate = async (noteId, titleData, descriptionData) => {
-    await updateNote(noteId, titleData, descriptionData);
-  };*/
+  const editNotes = (id, titleData, descriptionData) => {
+    console.log(id);
+    setNoteIdEdit(id);
+    setNoteDescription(descriptionData);
+    setNoteTitle(titleData);
+  };
 
-  const consultNote = async (e) => {
-    const doc = await getNote(e.target.dataset.id);
-    const note = doc.data();
-    e.target.titleNotes.value = note.title;
-    e.target.descriptionNotes.value = note.description;
+  const handleUpdate = async (noteId) => {
+    await updateNote(noteId, noteTitle, noteDescription);
+    setReadOnly(true);
   };
 
   return (
@@ -72,7 +86,7 @@ const Notes = () => {
             name="descriptionNotes"
             placeholder="Escribe la descripción"
           ></textarea>
-          <button type="submit" id="btn-save">
+          <button className="btn-save " type="submit" id="btn-save">
             Guardar
           </button>
         </form>
@@ -82,11 +96,42 @@ const Notes = () => {
             const titleData = note.data().title;
             const descriptionData = note.data().description;
             return (
-              <div key={noteId}>
-                <p>{titleData}</p>
-                <p>{descriptionData}</p>
-                <button onClick={() => removeNotes(noteId)}>Eliminar</button>
-                <button onClick={() => consultNote(noteId)}>Editar</button>
+              <div className="container-notes-save" key={noteId}>
+                <textarea
+                  readOnly={noteId !== noteIdEdit}
+                  id="titleSave"
+                  name="titleSave"
+                  onChange={(e) => setNoteTitle(e.target.value)}
+                >
+                  {titleData}
+                </textarea>
+                <textarea
+                  readOnly={noteId !== noteIdEdit}
+                  className="description "
+                  id="descriptionSave"
+                  name="descriptionSave"
+                  onChange={(e) => setNoteDescription(e.target.value)}
+                >
+                  {descriptionData}
+                </textarea>
+                <div className="container-btns">
+                  <button
+                    className="btn-delete"
+                    onClick={() => removeNotes(noteId)}
+                  >
+                    Eliminar
+                  </button>
+                  <button
+                    className="btn-edit "
+                    onClick={
+                      readOnly
+                        ? (e) => editNotes(noteId, titleData, descriptionData)
+                        : () => handleUpdate(noteId)
+                    }
+                  >
+                    {readOnly ? "Editar" : "Guardar"}
+                  </button>
+                </div>
               </div>
             );
           })}
