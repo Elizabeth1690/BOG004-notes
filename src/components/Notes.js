@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Notes.css";
-import "./Home.js";
+import ListNotes from "./ListNotes.js";
+import { useNavigate } from "react-router-dom";
 import {
   addNotes,
   getNotes,
@@ -12,30 +13,22 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
 
   const [noteTitle, setNoteTitle] = useState("");
-  const [readOnly, setReadOnly] = useState(true);
+  const [activateReadOnly, setActivateReadOnly] = useState(true);
   const [noteDescription, setNoteDescription] = useState("");
   const [noteIdEdit, setNoteIdEdit] = useState("");
 
+  let navigate = useNavigate();
   useEffect(() => {
     consultNotes();
   }, []);
 
-  /*useEffect(() => {
-    if (idEdit === "") {
-     
-    } else {
-      consultNote(idEdit);
-      console.log("biennnnnn", idEdit);
-    }
-  }, [idEdit]);*/
-
   const formNotes = (e) => {
     e.preventDefault();
-    console.log(e.target.titleNotes.value);
     const title = e.target.titleNotes.value;
     const description = e.target.descriptionNotes.value;
     addNotes(title, description);
     consultNotes();
+    e.target.reset();
   };
 
   const consultNotes = async () => {
@@ -54,11 +47,13 @@ const Notes = () => {
     setNoteIdEdit(id);
     setNoteDescription(descriptionData);
     setNoteTitle(titleData);
+    setActivateReadOnly(false);
   };
 
   const handleUpdate = async (noteId) => {
     await updateNote(noteId, noteTitle, noteDescription);
-    setReadOnly(true);
+    setNoteIdEdit(false);
+    setActivateReadOnly(true);
   };
 
   return (
@@ -66,11 +61,12 @@ const Notes = () => {
       <h2 className="title">" ¡ Recordar es vivir !"</h2>
       <button
         className="btn-signOut"
-        onClick={() => (window.location.href = "/")}
+        onClick={() => {
+          navigate("/");
+        }}
       >
         X
       </button>
-
       <div className="container-notes">
         <form id="form-notes" onSubmit={formNotes}>
           <input
@@ -96,43 +92,19 @@ const Notes = () => {
             const titleData = note.data().title;
             const descriptionData = note.data().description;
             return (
-              <div className="container-notes-save" key={noteId}>
-                <textarea
-                  readOnly={noteId !== noteIdEdit}
-                  id="titleSave"
-                  name="titleSave"
-                  onChange={(e) => setNoteTitle(e.target.value)}
-                >
-                  {titleData}
-                </textarea>
-                <textarea
-                  readOnly={noteId !== noteIdEdit}
-                  className="description "
-                  id="descriptionSave"
-                  name="descriptionSave"
-                  onChange={(e) => setNoteDescription(e.target.value)}
-                >
-                  {descriptionData}
-                </textarea>
-                <div className="container-btns">
-                  <button
-                    className="btn-delete"
-                    onClick={() => removeNotes(noteId)}
-                  >
-                    Eliminar
-                  </button>
-                  <button
-                    className="btn-edit "
-                    onClick={
-                      readOnly
-                        ? (e) => editNotes(noteId, titleData, descriptionData)
-                        : () => handleUpdate(noteId)
-                    }
-                  >
-                    {readOnly ? "Editar" : "Guardar"}
-                  </button>
-                </div>
-              </div>
+              <ListNotes
+                key={noteId}
+                noteId={noteId}
+                noteIdEdit={noteIdEdit}
+                titleData={titleData}
+                descriptionData={descriptionData}
+                activateReadOnly={activateReadOnly}
+                editNotes={() => editNotes(noteId, titleData, descriptionData)}
+                handleUpdate={() => handleUpdate(noteId)}
+                removeNotes={() => removeNotes(noteId)}
+                setNoteTitle={(e) => setNoteTitle(e.target.value)}
+                setNoteDescription={(e) => setNoteDescription(e.target.value)}
+              />
             );
           })}
       </div>
